@@ -1,3 +1,7 @@
+syntax = "proto3";
+
+package stress_test;
+
 service StressService {
   rpc StressCall(StressRequest) returns (StressResponse);
 }
@@ -10,7 +14,7 @@ message Error {
     VALIDATION = 3;
   }
 
-  int code = 1;
+  int32 code = 1;
   string message = 2;
   Type type = 3;
 }
@@ -28,7 +32,7 @@ message Duration {
   }
 
   Type type = 1;
-  int duration_sec = 2;
+  int32 duration_sec = 2;
 }
 
 message StressRequest {
