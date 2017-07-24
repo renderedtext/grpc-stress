@@ -1,0 +1,45 @@
+service StressService {
+  rpc StressCall(StressRequest) returns (StressResponse);
+}
+
+message Error {
+  enum Type {
+    SUCCESS = 0;
+    INTERNAL = 1;
+    UNKNOWN = 2;
+    VALIDATION = 3;
+  }
+
+  int code = 1;
+  string message = 2;
+  Type type = 3;
+}
+
+message Person {
+  string first_name = 1;
+  string last_name = 2;
+  float  weight = 3;
+}
+
+message Duration {
+  enum Type {
+    SECONDS = 0;
+    RANDOM  = 1;
+  }
+
+  Type type = 1;
+  int duration_sec = 2;
+}
+
+message StressRequest {
+  string version = 1;
+  repeated Person persons = 2;
+  Duration duration = 3;
+}
+
+message StressResponse {
+  string reply = 1;
+  Error error = 2;
+  repeated Person persons = 3;
+}
+
