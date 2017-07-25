@@ -1,0 +1,6 @@
+version: '3.2'
+services:
+  ex_client:
+    image: renderedtext/ex_client:<%= image_tag %>
+    ports:
+    - "4000:4000"
