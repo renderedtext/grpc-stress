@@ -20,7 +20,7 @@ defmodule ExClient do
   end
 
 
-  def benchmark_stress_call(service_endpoint \\ default_endpoint()) do
+  def benchmark_stress_call(time_sec, service_endpoint \\ default_endpoint()) do
     {:ok, channel} = GRPC.Stub.connect(service_endpoint)
     request  = StressTest.StressResponse.new(reply: "qwerty")
     Benchee.run(
@@ -28,7 +28,7 @@ defmodule ExClient do
         "stress_call(endpoint)" => fn -> stress_call(:endpoint, service_endpoint) end,
         "stress_call(channel)" => fn -> stress_call(:channel, channel) end,
         "stress_call(request)" => fn -> stress_call(:request, channel, request) end
-      }, time: 5
+      }, time: time_sec
     )
   end
 
