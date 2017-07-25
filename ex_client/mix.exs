@@ -38,7 +38,8 @@ defmodule ExClient.Mixfile do
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
       {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
       {:grpc, github: "tony612/grpc-elixir"},
-      {:benchee, "~> 0.9"},
+#       {:benchee, "~> 0.9"},
+      {:benchee, github: "renderedtext/benchee", branch: "pr/parse_cpu_for"},
     ]
   end
 end
