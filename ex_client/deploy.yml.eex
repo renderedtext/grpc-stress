@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ex-client
+spec:
+  type: NodePort
+#  type: LoadBalancer
+  selector:
+    app: ex-client
+  ports:
+    - protocol: TCP
+      port: 4000
+
+---
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ex-client
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: ex-client-pod
+      labels:
+        app: ex-client
+    spec:
+      containers:
+      - name: ex-client
+        image: renderedtext/ex_client:<%= image_tag %>
+        ports:
+        - containerPort: 4000
+        livenessProbe:
+          httpGet:
+            path: /health_check/ping
+            port: 4000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      imagePullSecrets:
+      - name: dockerhub-secrets
