@@ -1,3 +1,4 @@
+
 defmodule ExClient.Mixfile do
   use Mix.Project
 
@@ -39,7 +40,8 @@ defmodule ExClient.Mixfile do
       {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
       {:grpc, github: "tony612/grpc-elixir"},
 #       {:benchee, "~> 0.9"},
-      {:benchee, github: "renderedtext/benchee", branch: "pr/parse_cpu_for"},
+      {:benchee, github: "PragTob/benchee", branch: "master"},
     ]
   end
 end
+
