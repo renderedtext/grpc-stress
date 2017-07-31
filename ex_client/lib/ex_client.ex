@@ -3,8 +3,8 @@ defmodule ExClient do
   Documentation for ExClient.
   """
 
-  def server_run() do
-    GRPC.Server.start(StressTest.StressService.Server, 50051)
+  def server_run(port \\ 50051) do
+    GRPC.Server.start(StressTest.StressService.Server, port)
   end
 
   def stress_call(:endpoint, service_endpoint) do
@@ -21,13 +21,16 @@ defmodule ExClient do
 
 
   def benchmark_stress_call(time_sec, service_endpoint \\ default_endpoint()) do
+    server_run(50052)
+
     {:ok, channel} = GRPC.Stub.connect(service_endpoint)
     request  = StressTest.StressResponse.new(reply: "qwerty")
     Benchee.run(
       %{
-        "stress_call(endpoint)" => fn -> stress_call(:endpoint, service_endpoint) end,
-        "stress_call(channel)" => fn -> stress_call(:channel, channel) end,
-        "stress_call(request)" => fn -> stress_call(:request, channel, request) end
+        "stress_call(endpoint) -> Ruby server" => fn -> stress_call(:endpoint, service_endpoint) end,
+        "stress_call(channel) -> Ruby server" => fn -> stress_call(:channel, channel) end,
+        "stress_call(request) -> Ruby server" => fn -> stress_call(:request, channel, request) end,
+        "stress_call(endpoint) -> Elixir server" => fn -> stress_call(:endpoint, "localhost:50052") end,
       }, time: time_sec
     )
   end
